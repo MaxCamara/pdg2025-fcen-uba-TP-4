@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>GuiPanelTemplate</class>
+  <widget class="QWidget" name="guiPanelTemplate">
+
+    <layout class="QVBoxLayout" name="guiPanelTemplateVBoxLayout">
+      <property name="leftMargin">
+	<number>0</number>
+      </property>
+      <property name="topMargin">
+	<number>0</number>
+      </property>
+      <property name="rightMargin">
+	<number>0</number>
+      </property>
+      <property name="bottomMargin">
+	<number>0</number>
+      </property>
+      <property name="spacing">
+	<number>5</number>
+      </property>
+
+      <!-- row 0 -->
+
+      <item> <!-- templateVBoxLayout -->
+	<widget class="QLabel" name="labelVariables">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>3D CANVAS SIZE</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget>
+      </item>
+
+      <item> <!-- templateVBoxLayout -->
+	<widget class="QWidget" name="panelVariables">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelVariablesGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <item row="0" column="0">
+	      <widget class="QLabel" name="labelPanelTemplateWidth">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="text">
+		  <string>WIDTH</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget> <!-- "labelPanelTemplateWidth" -->
+	    </item>
+
+	    <item row="0" column="1">
+	      <widget class="QLineEdit" name="editPanelTemplateWidth">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="text">
+		  <string/>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget> <!-- "editPanelTemplateWidth" -->
+	    </item>
+
+	    <item row="0" column="2">
+	      <widget class="QLabel" name="labelPanelTemplateHeight">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>HEIGHT</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget> <!-- "labelPanelTemplateHeight" -->
+	    </item>
+
+	    <item row="0" column="3">
+	      <widget class="QLineEdit" name="editPanelTemplateHeight">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="text">
+		  <string/>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget> <!-- "editPanelTemplateHeight" -->
+	    </item>
+
+	    
+	  </layout> <!-- "panelVariablesGridLayout" -->
+	</widget> <!-- "panelVariables" -->
+      </item>
+
+      <item>
+	<spacer name="toolsVerticalSpacer">
+	  <property name="orientation">
+	    <enum>Qt::Vertical</enum>
+	  </property>
+	  <property name="sizeHint" stdset="0">
+	    <size>
+	      <width>200</width>
+	      <height>200</height>
+	    </size>
+	  </property>
+	</spacer>
+      </item>
+
+    </layout> <!-- "templateVBoxLayout" -->
+  </widget> <!-- "guiPanelTemplate" -->
+
+  <resources/>
+  <connections/>
+</ui>

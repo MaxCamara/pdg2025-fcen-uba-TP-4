@@ -1,0 +1,1592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>GuiPanelPolygonMesh</class>
+  <widget class="QWidget" name="guiPanelPolygonMesh">
+
+    <layout class="QVBoxLayout" name="guiPanelPolygonMeshVBoxLayout">
+      <property name="leftMargin">
+	<number>0</number>
+      </property>
+      <property name="topMargin">
+	<number>0</number>
+      </property>
+      <property name="rightMargin">
+	<number>0</number>
+      </property>
+      <property name="bottomMargin">
+	<number>0</number>
+      </property>
+      <property name="spacing">
+	<number>5</number>
+      </property>
+
+      <!-- SELECT SHAPE -->
+
+      <item>
+	<widget class="QLabel" name="labelShape">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>SHAPE</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget> <!-- "labelShape" -->
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelShape">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="visible">
+	    <bool>false</bool>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelShapeGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <item row="0" column="0">
+	      <widget class="QLabel" name="labelShapeSelect">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>SELECT</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="1" colspan="3">
+	      <widget class="QComboBox" name="comboBoxShapeSelect">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <item row="1" column="0" colspan="2">
+	      <widget class="QPushButton"
+		      name="pushButtonShapeSetSurface">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>SET SURFACE</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <item row="1" column="2" colspan="2">
+	      <widget class="QPushButton"
+		      name="pushButtonShapeSetPoints">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>SET POINTS</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	  </layout>
+	</widget>
+      </item>
+      
+      <!-- TEST -->
+
+      <item>
+	<widget class="QLabel" name="labelTest">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>TEST</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget> <!-- "labelTest" -->
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelTest">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="visible">
+	    <bool>false</bool>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelTestGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <!--
+		#         VERTICES    = 12
+		#         EDGES       = 17
+	    -->
+
+	    <item row="1" column="0">
+	      <widget class="QLabel" name="labelTestVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>VERTICES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="1">
+	      <widget class="QLineEdit" name="editTestVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="2">
+	      <widget class="QLabel" name="labelTestEdges">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>EDGES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="3">
+	      <widget class="QLineEdit" name="editTestEdges">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <!--
+		#         FACES       = 6
+		#         CORNERS     = 30
+	    -->
+
+	    <item row="2" column="0">
+	      <widget class="QLabel" name="labelTestFaces">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>FACES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="1">
+	      <widget class="QLineEdit" name="editTestFaces">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="2">
+	      <widget class="QLabel" name="labelTestCorners">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>CORNERS</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="3">
+	      <widget class="QLineEdit" name="editTestCorners">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <!--
+		#         V_BOUNDARY  = 10
+		#         V_INTERNAL  = 2
+	    -->
+
+	    <item row="3" column="0">
+	      <widget class="QLabel" name="labelTestVerticesBoundary">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>V BOUNDARY</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="3" column="1">
+	      <widget class="QLineEdit" name="editTestVerticesBoundary">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="3" column="2">
+	      <widget class="QLabel" name="labelTestVerticesInternal">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>V INTERNAL</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="3" column="3">
+	      <widget class="QLineEdit" name="editTestVerticesInternal">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <!--
+		#         V_REGULAR   = 12
+		#         V_SINGULAR  = 0
+	    -->
+
+	    <item row="4" column="0">
+	      <widget class="QLabel" name="labelTestVerticesRegular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>V REGULAR</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="1">
+	      <widget class="QLineEdit" name="editTestVerticesRegular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="2">
+	      <widget class="QLabel" name="labelTestVerticesSingular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>V SINGULAR</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="3">
+	      <widget class="QLineEdit" name="editTestVerticesSingular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <!--
+		#         E_BOUNDARY  = 10
+		#         E_REGULAR   = 7
+	    -->
+
+	    <item row="5" column="0">
+	      <widget class="QLabel" name="labelTestEdgesBoundary">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>E BOUNDARY</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="5" column="1">
+	      <widget class="QLineEdit" name="editTestEdgesBoundary">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="5" column="2">
+	      <widget class="QLabel" name="labelTestEdgesRegular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>E REGULAR</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="5" column="3">
+	      <widget class="QLineEdit" name="editTestEdgesRegular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <!--
+		#         E_SINGULAR  = 0
+		#         E_OTHER     = 0
+	    -->
+
+	    <item row="6" column="0">
+	      <widget class="QLabel" name="labelTestEdgesSingular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>E SINGULAR</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="6" column="1">
+	      <widget class="QLineEdit" name="editTestEdgesSingular">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="6" column="2">
+	      <widget class="QLabel" name="labelTestEdgesOther">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>E OTHER</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="6" column="3">
+	      <widget class="QLineEdit" name="editTestEdgesOther">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <!--
+
+                #         GENUS
+
+            -->
+
+	    <item row="7" column="0">
+	      <widget class="QLabel" name="labelTestGenus">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string>GENUS</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="7" column="1">
+	      <widget class="QLineEdit" name="editTestGenus">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>0</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <!--
+		#         IS_MANIFOLD  = 1
+		#         HAS_BOUNDARY = 1
+	    -->
+
+	    <item row="8" column="0" colspan="3">
+	      <widget class="QWidget" name="widgetTestCheckBoxes">
+		<layout class="QHBoxLayout" name="layoutTestCheckBoxes">
+		  <property name="leftMargin">
+		    <number>0</number>
+		  </property>
+		  <property name="topMargin">
+		    <number>0</number>
+		  </property>
+		  <property name="rightMargin">
+		    <number>0</number>
+		  </property>
+		  <property name="bottomMargin">
+		    <number>0</number>
+		  </property>
+		  <property name="spacing">
+		    <number>5</number>
+		  </property>
+
+		  <item>
+		    <widget class="QCheckBox" name="checkBoxTestIsManifold">
+		      <property name="sizePolicy">
+			<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+			  <horstretch>1</horstretch>
+			  <verstretch>0</verstretch>
+			</sizepolicy>
+		      </property>
+		      <property name="styleSheet">
+			<string notr="true">QCheckBox { padding : 10px; }</string>
+		      </property>
+		      <property name="minimumSize">
+			<size>
+			  <width>50</width>
+			  <height>22</height>
+			</size>
+		      </property>
+		      <property name="maximumSize">
+			<size>
+			  <width>10000</width>
+			  <height>30</height>
+			</size>
+		      </property>
+		      <property name="checked">
+			<bool>false</bool>
+		      </property>
+		      <property name="text">
+			<string>IS MANIFOLD</string>
+		      </property>
+		      <property name="font">
+			<font>
+			  <pointsize>10</pointsize>
+			</font>
+		      </property>
+		    </widget>
+		  </item>
+
+		  <item>
+		    <widget class="QCheckBox" name="checkBoxTestHasBoundary">
+		      <property name="sizePolicy">
+			<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+			  <horstretch>1</horstretch>
+			  <verstretch>0</verstretch>
+			</sizepolicy>
+		      </property>
+		      <property name="styleSheet">
+			<string notr="true">QCheckBox { padding : 5px; }</string>
+		      </property>
+		      <property name="minimumSize">
+			<size>
+			  <width>50</width>
+			  <height>22</height>
+			</size>
+		      </property>
+		      <property name="maximumSize">
+			<size>
+			  <width>10000</width>
+			  <height>28</height>
+			</size>
+		      </property>
+		      <property name="checked">
+			<bool>false</bool>
+		      </property>
+		      <property name="text">
+			<string>HAS BOUNDARY</string>
+		      </property>
+		      <property name="font">
+			<font>
+			  <pointsize>10</pointsize>
+			</font>
+		      </property>
+		    </widget>
+		  </item>
+		  
+		</layout>
+	      </widget>
+	    </item>
+
+	    <item row="8" column="3">
+	      <widget class="QPushButton" name="pushButtonTestPolygonMesh">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>TEST</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	  </layout> <!-- "panelTestGridLayout" -->
+	</widget> <!-- "panelTest" -->
+      </item>
+
+      <!-- CONNECTED COMPONENTS -->
+
+      <item>
+	<widget class="QLabel" name="labelConnectedComponents">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>CONNECTED COMPONENTS</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget> <!-- "labelConnectedComponents" -->
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelConnectedComponents">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="visible">
+	    <bool>false</bool>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelConnectedComponentsGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <!-- TO FILL UP -->
+
+	    <item row="0" column="0">
+	      <widget class="QPushButton" name="pushButtonCCPrimal">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>PRIMAL</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="1">
+	      <widget class="QLineEdit" name="editCCPrimal">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="2">
+	      <widget class="QPushButton" name="pushButtonCCDual">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>DUAL</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="3">
+	      <widget class="QLineEdit" name="editCCDual">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	  </layout>
+	</widget>
+      </item>
+
+      <!-- ORIENTATION -->
+
+      <item>
+	<widget class="QLabel" name="labelOrientation">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>ORIENTATION</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget> <!-- "labelOrientation" -->
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelOrientation">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="visible">
+	    <bool>false</bool>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelOrientationGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <!-- TO FILL UP -->
+	    
+	    <item row="0" column="0" colspan="3">
+	      <widget class="QPushButton" name="pushButtonIsOriented">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>IS ORIENTED</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="3">
+	      <widget class="QLineEdit" name="editIsOriented">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <item row="1" column="0" colspan="3">
+	      <widget class="QPushButton" name="pushButtonIsOrientable">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>IS ORIENTABLE</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="3">
+	      <widget class="QLineEdit" name="editIsOrientable">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+	    
+	    <item row="2" column="0" colspan="3">
+	      <widget class="QPushButton" name="pushButtonOrient">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>ORIENT</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="3">
+	      <widget class="QLineEdit" name="editOrient">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	  </layout>
+	</widget>
+      </item>
+
+      <!-- MANIFOLD -->
+
+      <item>
+	<widget class="QLabel" name="labelManifold">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>MANIFOLD</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget> <!-- "labelManifold" -->
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelManifold">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="visible">
+	    <bool>false</bool>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelManifoldGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <item row="0" column="0" colspan="3">
+	      <widget class="QPushButton"
+		      name="pushButtonRemoveIsolatedVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>REMOVE ISOLATED VERTICES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="3">
+	      <widget class="QLineEdit"
+		      name="editRemoveIsolatedVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="0" colspan="3">
+	      <widget class="QPushButton"
+		      name="pushButtonCutThroughSingularVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>CUT THROUGH SINGULAR VERTICES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="3">
+	      <widget class="QLineEdit"
+		      name="editCutThroughSingularVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="0" colspan="3">
+	      <widget class="QPushButton"
+		      name="pushButtonConvertToManifold">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>CONVERT TO MANIFOLD</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+ 
+	    <item row="2" column="3">
+	      <widget class="QLineEdit"
+		      name="editConvertToManifold">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="text">
+		  <string>???</string>
+		</property>
+		<property name="readOnly">
+		  <bool>true</bool>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	  </layout>
+	</widget>
+      </item>
+
+      <!-- END -->
+
+      <item>
+	<spacer name="toolsVerticalSpacer">
+	  <property name="orientation">
+	    <enum>Qt::Vertical</enum>
+	  </property>
+	  <property name="sizeHint" stdset="0">
+	    <size>
+	      <width>200</width>
+	      <height>200</height>
+	    </size>
+	  </property>
+	</spacer>
+      </item>
+
+    </layout> <!-- "polygonMeshVBoxLayout" -->
+
+  </widget> <!--  "GuiPanelPolygonMesh" -->
+
+  <resources/>
+  <connections/>
+</ui>

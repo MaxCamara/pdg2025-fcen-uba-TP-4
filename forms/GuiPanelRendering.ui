@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>GuiPanelRendering</class>
+  <widget class="QWidget" name="guiPanelRendering">
+
+    <layout class="QVBoxLayout" name="guiPanelRenderingVBoxLayout">
+      <property name="leftMargin">
+	<number>0</number>
+      </property>
+      <property name="topMargin">
+	<number>0</number>
+      </property>
+      <property name="rightMargin">
+	<number>0</number>
+      </property>
+      <property name="bottomMargin">
+	<number>0</number>
+      </property>
+      <property name="spacing">
+	<number>5</number>
+      </property>
+
+      <item>
+	<widget class="QLabel" name="labelVariables">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>1</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+	  <property name="minimumSize">
+	    <size>
+	      <width>50</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="maximumSize">
+	    <size>
+	      <width>10000</width>
+	      <height>22</height>
+	    </size>
+	  </property>
+	  <property name="alignment">
+	    <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+	  </property>
+	  <property name="styleSheet">
+	    <string notr="true">QLabel { background-color : rgb(200,200,200); color : black; }</string>
+	  </property>
+	  <property name="text">
+	    <string>RENDERING VARIABLES</string>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <pointsize>10</pointsize>
+	    </font>
+	  </property>
+	</widget>
+      </item>
+
+      <item>
+	<widget class="QWidget" name="panelVariables">
+	  <property name="sizePolicy">
+	    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+	      <horstretch>0</horstretch>
+	      <verstretch>0</verstretch>
+	    </sizepolicy>
+	  </property>
+
+	  <layout class="QGridLayout" name="panelVariablesGridLayout">
+	    <property name="leftMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="topMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="rightMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="bottomMargin">
+	      <number>0</number>
+	    </property>
+	    <property name="spacing">
+	      <number>5</number>
+	    </property>
+
+	    <item row="0" column="0" colspan="2">
+	      <widget class="QLabel" name="labelPointSize">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="text">
+		  <string>POINT SIZE</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="0" column="2">
+	      <widget class="QSpinBox" name="spinPointSize">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="minimum">
+		  <number>1</number>
+		</property>
+		<property name="maximum">
+		  <number>16</number>
+		</property>
+		<property name="value">
+		  <number>0</number>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="0" colspan="2">
+	      <widget class="QLabel" name="labelLineWidth">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="text">
+		  <string>LINE WIDTH</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="1" column="2">
+	      <widget class="QSpinBox" name="spinLineWidth">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="minimum">
+		  <number>1</number>
+		</property>
+		<property name="maximum">
+		  <number>16</number>
+		</property>
+		<property name="value">
+		  <number>0</number>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbAllVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>ALL VERTICES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="2">
+	      <widget class="QLabel" name="labelVertexHex">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="styleSheet">
+		  <string notr="true">QLabel { background-color : rgb(255,255,255); color : black; }</string>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string></string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="2" column="3">
+	      <widget class="QLabel" name="labelVertexColor">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="3" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbSelectedVertices">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>SELECTED VERTICES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbAllEdges">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>ALL EDGES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="2">
+	      <widget class="QLabel" name="labelEdgeHex">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="styleSheet">
+		  <string notr="true">QLabel { background-color : rgb(255,255,255); color : black; }</string>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string></string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="4" column="3">
+	      <widget class="QLabel" name="labelEdgeColor">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="5" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbSelectedEdges">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>SELECTED EDGES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="6" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbAllFaces">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>ALL FACES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="7" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbSelectedFaces">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>SELECTED FACES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="8" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbNormals">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>NORMALS</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="8" column="2">
+	      <widget class="QLabel" name="labelNormalHex">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="styleSheet">
+		  <string notr="true">QLabel { background-color : rgb(255,255,255); color : black; }</string>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string></string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="8" column="3">
+	      <widget class="QLabel" name="labelNormalColor">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="9" column="0" colspan="2">
+	      <widget class="QLabel" name="labelNormalFator">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="text">
+		  <string>NORMAL FACTOR</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="9" column="2">
+	      <widget class="QSpinBox" name="spinNormalFactor">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="minimum">
+		  <number>1</number>
+		</property>
+		<property name="maximum">
+		  <number>100</number>
+		</property>
+		<property name="value">
+		  <number>10</number>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="10" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbAllPolylines">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>ALL POLYLINES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="11" column="0" colspan="2">
+	      <widget class="QCheckBox" name="cbSelectedPolylines">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="checked">
+		  <bool>true</bool>
+		</property>
+		<property name="text">
+		  <string>SELECTED POLYLINES</string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="11" column="2">
+	      <widget class="QLabel" name="labelPolylinesHex">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="margin">
+		  <number>5</number>
+		</property>
+		<property name="styleSheet">
+		  <string notr="true">QLabel { background-color : rgb(255,255,255); color : black; }</string>
+		</property>
+		<property name="alignment">
+		  <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+		</property>
+		<property name="text">
+		  <string></string>
+		</property>
+		<property name="font">
+		  <font>
+		    <pointsize>10</pointsize>
+		  </font>
+		</property>
+	      </widget>
+	    </item>
+
+	    <item row="11" column="3">
+	      <widget class="QLabel" name="labelPolylinesColor">
+		<property name="sizePolicy">
+		  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+		    <horstretch>1</horstretch>
+		    <verstretch>0</verstretch>
+		  </sizepolicy>
+		</property>
+		<property name="minimumSize">
+		  <size>
+		    <width>50</width>
+		    <height>22</height>
+		  </size>
+		</property>
+		<property name="maximumSize">
+		  <size>
+		    <width>10000</width>
+		    <height>22</height>
+		  </size>
+		</property>
+	      </widget>
+	    </item>
+
+	  </layout>
+	</widget>
+      </item>
+
+      <item>
+	<spacer name="toolsVerticalSpacer">
+	  <property name="orientation">
+	    <enum>Qt::Vertical</enum>
+	  </property>
+	  <property name="sizeHint" stdset="0">
+	    <size>
+	      <width>200</width>
+	      <height>200</height>
+	    </size>
+	  </property>
+	</spacer>
+      </item>
+
+    </layout>
+
+  </widget>
+
+  <resources/>
+  <connections/>
+</ui>
