@@ -4,4 +4,4 @@ build
 build-*
 *.pro.user
 *~
-
+.idea

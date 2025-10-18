@@ -162,6 +162,9 @@ protected:
   // TODO Mon Mar 6 2023
   //
   // - add any additional variables you need to make it work
+    bool _hasBoundaryEdge;
+    bool _hasRegularEdge;
+    bool _hasSingularEdge;
 
 };
 

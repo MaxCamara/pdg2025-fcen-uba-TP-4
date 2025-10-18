@@ -36,47 +36,146 @@
 
 #include <math.h>
 #include "Faces.hpp"
+#include "io/StrException.hpp"
   
 Faces::Faces(const int nV, const vector<int>& coordIndex) {
-  // TODO
+  try{
+    if(nV<=0) throw new StrException("Cantidad incorrecta de vértices");
+
+    int faceNumber = 1;
+    _faceFirstCorner = {};
+    vector<int> newCoordIndex = {};
+
+    for(size_t i=0; i<coordIndex.size(); i++){
+      if(coordIndex[i] < -1 || coordIndex[i] >= nV) throw new StrException("Índice de vértice incorrecto");
+      if(i == 0 || coordIndex[i-1] == -1) _faceFirstCorner.push_back(i);
+      if(coordIndex[i] != -1){
+        newCoordIndex.push_back(coordIndex[i]);
+      } else {
+        newCoordIndex.push_back(-faceNumber);
+        faceNumber++;
+      }
+    }
+
+    _nV = nV;
+    _coordIndex = newCoordIndex;
+    _faceFirstCorner.push_back(coordIndex.size()); //Agrego un face index que apunta después del último separador
+
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
 }
 
 int Faces::getNumberOfVertices() const {
-  // TODO
-  return 0;
+  return _nV;
 }
 
 int Faces::getNumberOfFaces() const {
-  // TODO
-  return 0;
+  return _faceFirstCorner.size()-1; //Le resto 1 ya que la última posición no apunta a una cara real
 }
 
 int Faces::getNumberOfCorners() const {
-  // TODO
-  return 0;
+  return _coordIndex.size();
 }
 
 int Faces::getFaceSize(const int iF) const {
-  // TODO
-  return 0;
+  int result = -1;
+  try{
+    if(iF < 0 || iF >= getNumberOfFaces()){
+      throw new StrException("Índice de cara incorrecto");
+    }
+    int firstIndexFace = getFaceFirstCorner(iF);
+    int indexFaceSeparator;
+    if(iF == getNumberOfFaces() - 1){
+      indexFaceSeparator = getNumberOfCorners() - 1;
+    } else {
+      indexFaceSeparator = getFaceFirstCorner(iF+1) - 1;
+    }
+    result = indexFaceSeparator - firstIndexFace;
+
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
+
+  return result;
 }
 
 int Faces::getFaceFirstCorner(const int iF) const {
-  // TODO
-  return -1;
+  int result = -1;
+  try{
+    if(iF < 0 || iF >= getNumberOfFaces()){
+      throw new StrException("Índice de cara incorrecto");
+    }
+    result = _faceFirstCorner[iF];
+
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
+
+  return result;
 }
 
 int Faces::getFaceVertex(const int iF, const int j) const {
-  // TODO
-  return -1;
+  int result = -1;
+  try{
+    if(iF < 0 || iF >= getNumberOfFaces()){
+      throw new StrException("Índice de cara incorrecto");
+    }
+    if(j < 0 || j >= getFaceSize(iF)){
+      throw new StrException("Número de esquina fuera del tamaño de la cara");
+    }
+    int vertexIndex = getFaceFirstCorner(iF) + j;
+    result = _coordIndex[vertexIndex];
+
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
+
+  return result;
 }
 
 int Faces::getCornerFace(const int iC) const {
-  // TODO
-  return -1;
+  int result = -1;
+  try{
+    if(iC < 0 || iC >= getNumberOfCorners()){
+      throw new StrException("Índice de esquina incorrecto");
+    }
+    if(_coordIndex[iC] >= 0){
+      int i = iC+1;
+      while(_coordIndex[i] >= 0){i++;}
+      result = -_coordIndex[i] - 1;
+    }
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
+
+  return result;
 }
 
 int Faces::getNextCorner(const int iC) const {
-  // TODO
-  return -1;
+  int result = -1;
+  try{
+    if(iC < 0 || iC >= getNumberOfCorners()){
+      throw new StrException("Índice de esquina incorrecto");
+    }
+    if(_coordIndex[iC] >= 0){
+      int cornerFace = getCornerFace(iC);
+      if(_coordIndex[iC+1] >= 0){
+        result = iC+1;
+      } else {
+        result = getFaceFirstCorner(cornerFace);  //Si la posición siguiente es el separador, la siguiente esquina es la primer esquina de la cara
+      }
+    }
+
+  } catch(StrException* e) {
+    fprintf(stderr,"Faces | ERROR | %s\n",e->what());
+    delete e;
+  }
+
+  return result;
 }

@@ -39,7 +39,8 @@ win32 {
 }
 
 unix:!macx {
-    QMAKE_LFLAGS += -Wl
+    #QMAKE_LFLAGS += -Wl
+    QMAKE_LFLAGS += -W
     #QMAKE_CXXFLAGS += -g
 }
 

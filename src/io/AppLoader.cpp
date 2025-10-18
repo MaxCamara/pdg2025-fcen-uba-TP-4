@@ -35,6 +35,7 @@
 #include "AppLoader.hpp"
 
 bool AppLoader::load(const char* filename, SceneGraph& wrl) {
+  setlocale(LC_NUMERIC, "C");
   bool success = false;
   if(filename!=(const char*)0) {
     // int n = (int)strlen(filename);
