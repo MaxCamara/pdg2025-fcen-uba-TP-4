@@ -337,7 +337,13 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
 
   for(int step=0;step<_steps;step++) {
 
-    // zero accumulators dx[] and w[]
+    // zero accumulators dx[] and wx[]
+    for (int iV=0; iV<nV; iV++) {
+      wx[iV] = 0;
+      dx[iV*3] = 0;
+      dx[iV*3 + 1] = 0;
+      dx[iV*3 + 2] = 0;
+    }
 
     // accumulate displacement vectors and weights
     //
@@ -356,6 +362,30 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
     // for each vertex iV {
     //   dx_iV /= wx_iV
     // }
+    for (int iE=0; iE<nE; iE++) {
+      int iV0 = pmesh->getVertex0(iE);
+      int iV1 = pmesh->getVertex1(iE);
+      vector<float> dx_iV0_iV1 = {x[iV1*3]-x[iV0*3], x[iV1*3+1]-x[iV0*3+1], x[iV1*3+2]-x[iV0*3+2]};
+      float w_iE = 1.0;
+
+      dx[iV0*3] += w_iE * dx_iV0_iV1[0];
+      dx[iV0*3+1] += w_iE * dx_iV0_iV1[1];
+      dx[iV0*3+2] += w_iE * dx_iV0_iV1[2];
+      wx[iV0] += w_iE;
+
+      dx[iV1*3] += w_iE * -dx_iV0_iV1[0];
+      dx[iV1*3+1] += w_iE * -dx_iV0_iV1[1];
+      dx[iV1*3+2] += w_iE * -dx_iV0_iV1[2];
+      wx[iV1] += w_iE;
+    }
+
+    for (int iV=0; iV<nV; iV++) {
+      if (wx[iV]!=0) {
+        dx[iV*3] /= wx[iV];
+        dx[iV*3+1] /= wx[iV];
+        dx[iV*3+2] /= wx[iV];
+      }
+    }
 
     // alternate between _lambda and _mu for even and odd step values
     float lambda = (step%2==0)?_lambda:_mu;
@@ -365,6 +395,11 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
     // for each vertex iV {
     //   x_iV += lambda * dx_iV
     // }
+    for (int iV=0; iV<nV; iV++) {
+      x[iV*3] += lambda * dx[iV*3];
+      x[iV*3+1] += lambda * dx[iV*3+1];
+      x[iV*3+2] += lambda * dx[iV*3+2];
+    }
 
   }
 

@@ -60,6 +60,9 @@ using namespace std;
 
 enum Operation {
   NONE,
+  SMOOTHING_LAPLACIAN_COORD,
+  SMOOTHING_LAPLACIAN_NORM,
+  SMOOTHING_JACOBI
   // ...
 };
 
@@ -88,6 +91,12 @@ void options(Data& D) {
   cout << "   -r|-removeProperties    [" << tv(D._removeProperties) << "]" << endl;
 
   // - add lines to explain how to specify the operation to be performed
+  cout << "  -lc|-laplacianCoord            ["
+       << tv(D._operation==Operation::SMOOTHING_LAPLACIAN_COORD) << "]" << endl;
+  cout << "  -ln|-laplacianNorm            ["
+       << tv(D._operation==Operation::SMOOTHING_LAPLACIAN_NORM) << "]" << endl;
+  cout << "   -j|-jacobi            ["
+       << tv(D._operation==Operation::SMOOTHING_JACOBI) << "]" << endl;
 
 }
 
@@ -250,6 +259,42 @@ int main(int argc, char **argv) {
   if(D._debug) cout << "  processing {" << endl;
 
   // TODO
+  Node* node;
+  SceneGraphTraversal sgt(wrl);
+
+  switch(D._operation) {
+    case Operation::SMOOTHING_LAPLACIAN_COORD:
+      // perform the operation here
+      cout << "    Suavizando la malla usando método laplaciano sobre las coordenadas de vértices" << endl;
+      for(int iIfs=0;(node=sgt.next())!=(Node*)0;iIfs++) {
+        Shape* shape = dynamic_cast<Shape*>(node);
+        if(shape==(Shape*)0) continue;
+        IndexedFaceSet* ifs = dynamic_cast<IndexedFaceSet*>(shape->getGeometry());
+        if(ifs==(IndexedFaceSet*)0) continue;
+
+        cout << "      IndexedFaceSet iIfs[" << iIfs <<"]:" << endl;
+
+        //Ejecutar operación sobre el IndexedFaceSet
+
+        Optimization* optimization = new Optimization();
+        optimization->setInput(ifs);
+
+        IndexedFaceSet* ifsOpt = new IndexedFaceSet();
+        optimization->setOptimized(ifsOpt);
+
+        optimization->laplacianSmoothingVertexCoordinatesRun();
+
+        cout << endl;
+      }
+      break;
+    case Operation::SMOOTHING_LAPLACIAN_NORM:
+      break;
+    case Operation::SMOOTHING_JACOBI:
+      break;
+    case Operation::NONE:
+    default:
+      break;
+  }
 
   if(D._debug) cout << "  } processing" << endl;
   
