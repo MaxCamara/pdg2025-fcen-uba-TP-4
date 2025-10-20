@@ -569,10 +569,10 @@ void  Optimization::jacobiRun() {
   // E(x) = (1-sigma)*\sum_{0<=iV<nV} \| x_{iV}-x0_{iV}\|^2 +
   //        (  sigma)*\sum_{0<=iE<nE} \| x_{iV0}-x_{iV1}\|^2
 
-  // std::cout << "void Optimization::laplacianSmoothingRun() {\n";
-  // std::cout << "  lambda = " << _lambda << "\n";
-  // std::cout << "  mu     = " << _mu     << "\n";
-  // std::cout << "  steps  = " << _steps  << "\n";
+  std::cout << "void Optimization::laplacianSmoothingRun() {\n";
+  std::cout << "  lambda = " << _lambda << "\n";
+  std::cout << "  mu     = " << _mu     << "\n";
+  std::cout << "  steps  = " << _steps  << "\n";
 
   IndexedFaceSetVariables ifsv(*_ifsOptimized);
   PolygonMesh* pmesh = ifsv.getPolygonMesh(true);
@@ -596,9 +596,15 @@ void  Optimization::jacobiRun() {
   // Optimization::laplacianSmoothingVertexCoordinatesRun() 
   // and if sigma==0 the regularization term is ignored 
 
-  for(int step=0;step<_steps;) {
+  for(int step=0;step<_steps;step++) {
 
     // zero accumulators dx[] and wx[]
+    for (int iV=0; iV<nV; iV++) {
+      wx[iV] = 0;
+      dx[iV*3] = 0;
+      dx[iV*3 + 1] = 0;
+      dx[iV*3 + 2] = 0;
+    }
 
     // accumulate displacement vectors and weights
     //
@@ -611,6 +617,14 @@ void  Optimization::jacobiRun() {
     //   add the weight w to the accumulator wx_iV
     // 
     // }
+    float w = 1.0 - sigma;
+    for (int iV=0; iV<nV; iV++) {
+      vector<float> dx_iV = {x0[iV*3]-x[iV*3], x0[iV*3+1]-x[iV*3+1], x0[iV*3+2]-x[iV*3+2]};
+      dx[iV*3] += w * dx_iV[0];
+      dx[iV*3+1] += w * dx_iV[1];
+      dx[iV*3+2] += w * dx_iV[2];
+      wx[iV] += w;
+    }
 
     // 2) accumulate the contribution of the regularization term
     //    - note that this part can be copied from
@@ -624,13 +638,35 @@ void  Optimization::jacobiRun() {
     //   add -dx_iV0_iV1 multiplied by w to the accumulator dx_iV1
     //   add  w to the accumulator wx_iV1
     // }
-    //
     // normalize the displacement vectors
     // (make sure that you do not divide by zero!)
     //
     // for each vertex iV {
     //   dx_iV /= wx_iV
     // }
+    w = sigma;
+    for (int iE=0; iE<nE; iE++) {
+      int iV0 = pmesh->getVertex0(iE);
+      int iV1 = pmesh->getVertex1(iE);
+      vector<float> dx_iV0_iV1 = {x[iV1*3]-x[iV0*3], x[iV1*3+1]-x[iV0*3+1], x[iV1*3+2]-x[iV0*3+2]};
+
+      dx[iV0*3] += w * dx_iV0_iV1[0];
+      dx[iV0*3+1] += w * dx_iV0_iV1[1];
+      dx[iV0*3+2] += w * dx_iV0_iV1[2];
+      wx[iV0] += w;
+
+      dx[iV1*3] += w * -dx_iV0_iV1[0];
+      dx[iV1*3+1] += w * -dx_iV0_iV1[1];
+      dx[iV1*3+2] += w * -dx_iV0_iV1[2];
+      wx[iV1] += w;
+    }
+    for (int iV=0; iV<nV; iV++) {
+      if (wx[iV]!=0) {
+        dx[iV*3] /= wx[iV];
+        dx[iV*3+1] /= wx[iV];
+        dx[iV*3+2] /= wx[iV];
+      }
+    }
 
     // alternate between _lambda and _mu for even and odd step values
     float lambda = (step%2==0)?_lambda:_mu;
@@ -640,6 +676,11 @@ void  Optimization::jacobiRun() {
     // for each vertex iV {
     //   x_iV += lambda * dx_iV
     // }
+    for (int iV=0; iV<nV; iV++) {
+      x[iV*3] += lambda * dx[iV*3];
+      x[iV*3+1] += lambda * dx[iV*3+1];
+      x[iV*3+2] += lambda * dx[iV*3+2];
+    }
   }
 
   // since the vertex coordinates have changed, recompute face normals
@@ -656,7 +697,7 @@ void  Optimization::jacobiRun() {
   // clear all selection buffers ???
   ifsv.clearAllSelection();
 
-  // std::cout << "}\n";
+  std::cout << "}\n";
 }
 
 //////////////////////////////////////////////////////////////////////
