@@ -91,11 +91,11 @@ void options(Data& D) {
   cout << "   -r|-removeProperties    [" << tv(D._removeProperties) << "]" << endl;
 
   // - add lines to explain how to specify the operation to be performed
-  cout << "  -lc|-laplacianCoord            ["
+  cout << "  -lc|-laplacianCoord      ["
        << tv(D._operation==Operation::SMOOTHING_LAPLACIAN_COORD) << "]" << endl;
-  cout << "  -ln|-laplacianNorm            ["
+  cout << "  -ln|-laplacianNorm       ["
        << tv(D._operation==Operation::SMOOTHING_LAPLACIAN_NORM) << "]" << endl;
-  cout << "   -j|-jacobi            ["
+  cout << "   -j|-jacobi              ["
        << tv(D._operation==Operation::SMOOTHING_JACOBI) << "]" << endl;
 
 }
@@ -132,6 +132,12 @@ int main(int argc, char **argv) {
 
       // - add code to parse the desired operation to be performed
       // - from the command line
+    } else if(string(argv[i])=="-lc" || string(argv[i])=="-laplacianCoord") {
+      D._operation = Operation::SMOOTHING_LAPLACIAN_COORD;
+    } else if(string(argv[i])=="-ln" || string(argv[i])=="-laplacianNorm") {
+      D._operation = Operation::SMOOTHING_LAPLACIAN_NORM;
+    } else if(string(argv[i])=="-j" || string(argv[i])=="-jacobi") {
+      D._operation = Operation::SMOOTHING_JACOBI;
 
     } else if(string(argv[i])[0]=='-') {
       error("unknown option");
@@ -282,7 +288,11 @@ int main(int argc, char **argv) {
         IndexedFaceSet* ifsOpt = new IndexedFaceSet();
         optimization->setOptimized(ifsOpt);
 
+        //optimization->setMu(-0.525);
+        optimization->setSteps(10);
         optimization->laplacianSmoothingVertexCoordinatesRun();
+
+        optimization->saveOptimized();
 
         cout << endl;
       }

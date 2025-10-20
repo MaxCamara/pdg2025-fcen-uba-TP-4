@@ -318,10 +318,10 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
   // Jacobi iteration for energy function
   // E(x) = \sum_{0<=iE<nE} {1} \| x_{iV0}-x_{iV1}^0\|^2
 
-  // std::cout << "void Optimization::laplacianSmoothingVertexCoordinatesRun() {\n";
-  // std::cout << "  lambda = " << _lambda << "\n";
-  // std::cout << "  mu     = " << _mu     << "\n";
-  // std::cout << "  steps  = " << _steps  << "\n";
+  std::cout << "void Optimization::laplacianSmoothingVertexCoordinatesRun() {\n";
+  std::cout << "  lambda = " << _lambda << "\n";
+  std::cout << "  mu     = " << _mu     << "\n";
+  std::cout << "  steps  = " << _steps  << "\n";
 
   IndexedFaceSetVariables ifsv(*_ifsOptimized);
   PolygonMesh* pmesh = ifsv.getPolygonMesh(true);
@@ -355,13 +355,6 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
     //   add -dx_iV0_iV1 multiplied by w_iE to the accumulator dx_iV1
     //   add  w_iE to the accumulator wx_iV1
     // }
-    //
-    // normalize the displacement vectors
-    // (make sure that you do not divide by zero!)
-    //
-    // for each vertex iV {
-    //   dx_iV /= wx_iV
-    // }
     for (int iE=0; iE<nE; iE++) {
       int iV0 = pmesh->getVertex0(iE);
       int iV1 = pmesh->getVertex1(iE);
@@ -379,6 +372,12 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
       wx[iV1] += w_iE;
     }
 
+    // normalize the displacement vectors
+    // (make sure that you do not divide by zero!)
+    //
+    // for each vertex iV {
+    //   dx_iV /= wx_iV
+    // }
     for (int iV=0; iV<nV; iV++) {
       if (wx[iV]!=0) {
         dx[iV*3] /= wx[iV];
@@ -429,7 +428,7 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
   // remeshing methods
   // ifsv.clearAllSelection();
 
-  // std::cout << "}\n";
+  std::cout << "}\n";
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -440,11 +439,11 @@ void Optimization::laplacianSmoothingFaceNormalsRun(const bool normalize) {
   // Jacobi iteration for energy function
   // E(n) = \sum_{0<=iE<nED} {1} \| n_{iF0}-n_{iF1}^0\|^2
 
-  // std::cout << "void Optimization::laplacianSmoothingFaceNormalsRun() {\n";
-  // std::cout << "  normalize         = " << ((normalize)?"true":"false") << "\n";
-  // std::cout << "  lambda            = " << _lambda << "\n";
-  // std::cout << "  mu                = " << _mu     << "\n";
-  // std::cout << "  steps             = " << _steps  << "\n";
+  std::cout << "void Optimization::laplacianSmoothingFaceNormalsRun() {\n";
+  std::cout << "  normalize         = " << ((normalize)?"true":"false") << "\n";
+  std::cout << "  lambda            = " << _lambda << "\n";
+  std::cout << "  mu                = " << _mu     << "\n";
+  std::cout << "  steps             = " << _steps  << "\n";
 
   IndexedFaceSetVariables ifsv(*_ifsOptimized);
   PolygonMesh* pmesh = ifsv.getPolygonMesh(true);
@@ -471,7 +470,13 @@ void Optimization::laplacianSmoothingFaceNormalsRun(const bool normalize) {
 
   for(int step=0;step<_steps;step++) {
 
-    // zero accumulators dn[] and 
+    // zero accumulators dn[] and wn
+    for (int iF=0; iF<nF; iF++) {
+      wn[iF] = 0;
+      dn[iF*3] = 0;
+      dn[iF*3 + 1] = 0;
+      dn[iF*3 + 2] = 0;
+    }
 
     // accumulate displacement vectors
     //
@@ -484,13 +489,37 @@ void Optimization::laplacianSmoothingFaceNormalsRun(const bool normalize) {
     //   add -dx_iF0_iF1 multiplied by w_iE to the accumulator dn_iF1
     //   add  w_iE to the accumulator wn_iF1
     // }
-    //
+    for (int iE=0; iE<nE; iE++) {
+      if (!pmesh->isRegularEdge(iE)) continue;
+      int iF0 = pmesh->getEdgeFace(iE, 0);
+      int iF1 = pmesh->getEdgeFace(iE, 1);
+      vector<float> dn_iF0_iF1 = {n[iF1*3]-n[iF0*3], n[iF1*3+1]-n[iF0*3+1], n[iF1*3+2]-n[iF0*3+2]};
+      float w_iE = 1.0;
+
+      dn[iF0*3] += w_iE * dn_iF0_iF1[0];
+      dn[iF0*3+1] += w_iE * dn_iF0_iF1[1];
+      dn[iF0*3+2] += w_iE * dn_iF0_iF1[2];
+      wn[iF0] += w_iE;
+
+      dn[iF1*3] += w_iE * -dn_iF0_iF1[0];
+      dn[iF1*3+1] += w_iE * -dn_iF0_iF1[1];
+      dn[iF1*3+2] += w_iE * -dn_iF0_iF1[2];
+      wn[iF1] += w_iE;
+    }
+
     // normalize the displacement vectors
     // (make sure that you do not divide by zero!)
     //
     // for each face iF {
     //   dn_iF /= wn_iF
     // }
+    for (int iF=0; iF<nF; iF++) {
+      if (wn[iF]!=0) {
+        dn[iF*3] /= wn[iF];
+        dn[iF*3+1] /= wn[iF];
+        dn[iF*3+2] /= wn[iF];
+      }
+    }
 
     // alternate between _lambda and _mu for even and odd step values
     float lambda = (step%2==0)?_lambda:_mu;
@@ -500,11 +529,22 @@ void Optimization::laplacianSmoothingFaceNormalsRun(const bool normalize) {
     // for each face iF {
     //   n_iF += lambda * dn_iF
     // }
+    for (int iF=0; iF<nF; iF++) {
+      n[iF*3] += lambda * dn[iF*3];
+      n[iF*3+1] += lambda * dn[iF*3+1];
+      n[iF*3+2] += lambda * dn[iF*3+2];
+    }
 
   }
 
   if(normalize) {
     // normalize face normals to unit length
+    for (int iF=0; iF<nF; iF++) {
+      float normalLength = sqrt(pow(n[iF*3], 2) + pow(n[iF*3+1], 2) + pow(n[iF*3+2], 2));
+      n[iF*3] /= normalLength;
+      n[iF*3+1] /= normalLength;
+      n[iF*3+2] /= normalLength;
+    }
   }
 
   // clear colors (or maybe not?)
@@ -512,6 +552,8 @@ void Optimization::laplacianSmoothingFaceNormalsRun(const bool normalize) {
 
   // clear all selection buffers (or maybe not?)
   ifsv.clearAllSelection();
+
+  std::cout << "}\n";
 }
 
 //////////////////////////////////////////////////////////////////////
