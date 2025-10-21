@@ -428,6 +428,9 @@ void Optimization::laplacianSmoothingVertexCoordinatesRun() {
   // remeshing methods
   // ifsv.clearAllSelection();
 
+  //Las longitudes de las aristas cambian
+  Geometry::computeEdgeLengths(coord,*pmesh,_edgeLengths);
+
   std::cout << "}\n";
 }
 
@@ -569,10 +572,11 @@ void  Optimization::jacobiRun() {
   // E(x) = (1-sigma)*\sum_{0<=iV<nV} \| x_{iV}-x0_{iV}\|^2 +
   //        (  sigma)*\sum_{0<=iE<nE} \| x_{iV0}-x_{iV1}\|^2
 
-  std::cout << "void Optimization::laplacianSmoothingRun() {\n";
+  std::cout << "void Optimization::jacobiSmoothingRun() {\n";
   std::cout << "  lambda = " << _lambda << "\n";
   std::cout << "  mu     = " << _mu     << "\n";
   std::cout << "  steps  = " << _steps  << "\n";
+  std::cout << "  sigma  = " << _jacobiWeightSmoothing  << "\n";
 
   IndexedFaceSetVariables ifsv(*_ifsOptimized);
   PolygonMesh* pmesh = ifsv.getPolygonMesh(true);
@@ -696,6 +700,9 @@ void  Optimization::jacobiRun() {
 
   // clear all selection buffers ???
   ifsv.clearAllSelection();
+
+  //Las longitudes de las aristas cambian
+  Geometry::computeEdgeLengths(coord,*pmesh,_edgeLengths);
 
   std::cout << "}\n";
 }
@@ -1163,11 +1170,17 @@ void Optimization::_collapseEdgesSelect
     //
     // float eLength = heap.getLastFKey();
     // if(eLength>=_lowEdgeLength) break;
+    float eLength = heap.getLastFKey();
+    if(eLength>=_targetEdgeLength) break;
 
     // if edge is not regular, continue
+    if (!pmesh->isRegularEdge(iE)) continue;
 
     // if either one of the two vertices iV0 and iV1 of the edge iE
     // are marked as used, continue
+    int iV0 = pmesh->getVertex0(iE);
+    int iV1 = pmesh->getVertex1(iE);
+    if (usedVertex[iV0] || usedVertex[iV1]) continue;
 
     // mark the edge as selected 
     edgeSelection[iE] = _eSelIndex;
@@ -1193,21 +1206,74 @@ void Optimization::_collapseEdgesSelect
       // iV0-> x - x <- iV1
       //      / \ / \
       //     x - x - x
-      break;
+        usedVertex[iV0] = true;
+        usedVertex[iV1] = true;
+
+        iC0 = pmesh->getEdgeHalfEdge(iE, 0);
+        iC0p = pmesh->getPrev(iC0);
+        iC0n = pmesh->getNext(iC0);
+        iC1 = pmesh->getEdgeHalfEdge(iE, 1);
+        iC1p = pmesh->getPrev(iC1);
+        iC1n = pmesh->getNext(iC1);
+        iV2 = pmesh->getDst(iC0n);
+        iV3 = pmesh->getDst(iC1n);
+        usedVertex[iV2] = true;
+        usedVertex[iV3] = true;
+
+        //Si las aristas son regulares, los twins de iC0p, iC0n, iC1p e iC1n se encuentran en las caras que contienen los otros vértices
+        iC = pmesh->getTwin(iC0p);
+        if (iC>=0) {
+          //Como iC es el half-edge twin, el half-edge que lo precede en la cara es el que se origina en el vértice que buscamos
+          iC = pmesh->getPrev(iC);
+          iV = pmesh->getSrc(iC);
+          usedVertex[iV] = true;
+        }
+        iC = pmesh->getTwin(iC0n);
+        if (iC>=0) {
+          iC = pmesh->getPrev(iC);
+          iV = pmesh->getSrc(iC);
+          usedVertex[iV] = true;
+        }
+        iC = pmesh->getTwin(iC1p);
+        if (iC>=0) {
+          iC = pmesh->getPrev(iC);
+          iV = pmesh->getSrc(iC);
+          usedVertex[iV] = true;
+        }
+        iC = pmesh->getTwin(iC1n);
+        if (iC>=0) {
+          iC = pmesh->getPrev(iC);
+          iV = pmesh->getSrc(iC);
+          usedVertex[iV] = true;
+        }
+        break;
     case EdgeCollapseIndependentSet::VERTICES_4:
       //          x
       //         / \
       // iV0 -> x - x <- iV1
       //         \ /
       //          x
-      break;
+        usedVertex[iV0] = true;
+        usedVertex[iV1] = true;
+
+        iC0 = pmesh->getEdgeHalfEdge(iE, 0);
+        iC1 = pmesh->getEdgeHalfEdge(iE, 1);
+        iC0n = pmesh->getNext(iC0);
+        iC1n = pmesh->getNext(iC1);
+        iV2 = pmesh->getDst(iC0n);
+        iV3 = pmesh->getDst(iC1n);
+        usedVertex[iV2] = true;
+        usedVertex[iV3] = true;
+        break;
     case EdgeCollapseIndependentSet::VERTICES_2:
       //          o
       //         / \
       // iV0 -> x - x <- iV1
       //         \ /
       //          o
-      break;
+        usedVertex[iV0] = true;
+        usedVertex[iV1] = true;
+        break;
     }
 
     // for visualization purposes
@@ -1407,6 +1473,45 @@ void Optimization::collapseEdgesApply
   //    }
   //    increment iVnew
   // }
+  int iVnew = 0;
+  vector<bool> selectedEdgeVertex(nV, false);
+  vector<bool> selectedEdgeFace(nF, false);
+
+  for (int iE=0; iE<nE; iE++) {
+    if (edgeSelection[iE] != _eSelIndex) continue;
+
+    int iV0 = pmesh->getVertex0(iE);
+    int iV1 = pmesh->getVertex1(iE);
+
+    selectedEdgeVertex[iV0] = true;
+    selectedEdgeVertex[iV1] = true;
+    int incidentFaces = pmesh->getNumberOfEdgeFaces(iE);
+    for (int i=0; i<incidentFaces; i++) {
+      int iF = pmesh->getEdgeFace(iE, i);
+      selectedEdgeFace[iF] = true;
+    }
+
+    vertexMap[iV0] = iVnew;
+    vertexMap[iV1] = iVnew;
+
+    vector<float> coord_iV0 = {coord[iV0*3], coord[iV0*3+1], coord[iV0*3+2]};
+    vector<float> coord_iV1 = {coord[iV1*3], coord[iV1*3+1], coord[iV1*3+2]};
+    vector<float> coord_iVnew = {
+      (coord_iV0[0] + coord_iV1[0]) / 2,
+      (coord_iV0[1] + coord_iV1[1]) / 2,
+      (coord_iV0[2] + coord_iV1[2]) / 2
+    };
+    newCoord.push_back(coord_iVnew[0]);
+    newCoord.push_back(coord_iVnew[1]);
+    newCoord.push_back(coord_iVnew[2]);
+
+    if(errorMetric==EdgeCollapseErrorMetric::GARLAND_HECKBERT) {
+      cout << "Estoy usando la métrica de error GARLAND_HECKBERT" << endl;
+    }
+
+    iVnew++;
+  }
+
   //
   // assign new vertex indices to vertices which are not ends of
   // collapsed edges
@@ -1425,6 +1530,19 @@ void Optimization::collapseEdgesApply
   //      increment iVnew
   //   }
   // }
+  for (int iV=0; iV<nV; iV++) {
+    if (!selectedEdgeVertex[iV]) {
+      vertexMap[iV] = iVnew;
+      newCoord.push_back(coord[iV*3]);
+      newCoord.push_back(coord[iV*3+1]);
+      newCoord.push_back(coord[iV*3+2]);
+      if(errorMetric==EdgeCollapseErrorMetric::GARLAND_HECKBERT) {
+        cout << "Estoy usando la métrica de error GARLAND_HECKBERT" << endl;
+        // save old values of qVMatrix4x4
+      }
+      iVnew++;
+    }
+  }
 
   // since faces incident to selected edges must be deleted, you may
   // want to create a data structure to identify them before the next
@@ -1439,13 +1557,22 @@ void Optimization::collapseEdgesApply
     //
     // if face iF is incident to a selected edge, it has to be
     // deleted, continue
-    //
+    if (selectedEdgeFace[iF]) {
+      iC0 = iC1+1; iF++;
+      continue;
+    }
+
     // for each corner iC of face iF {
     //   using the vertexMap array determine the new vertex index iVnew
     //   push_back that value onto the new coordIndex array
     // }
     // don't forget to add a face separator
-    //
+    for(iC=iC0; iC<iC1; iC++){
+      iVnew = vertexMap[pmesh->getSrc(iC)];
+      newCoordIndex.push_back(iVnew);
+    }
+    newCoordIndex.push_back(-1);
+
     // advance to next face
     iC0 = iC1+1; iF++;
   }
@@ -1471,6 +1598,10 @@ void Optimization::collapseEdgesApply
 
   // clear all selection buffers
   ifsv.clearAllSelection();
+
+  //Actualizo la variable _edgeLengths que se usa en este algoritmo para poder usarlo varias veces sobre un mismo IndexedFaceSet sin que haya errores
+  pmesh = ifsv.getPolygonMesh(true);
+  Geometry::computeEdgeLengths(coord,*pmesh,_edgeLengths);
 
   _ifsOptimized->printInfo("  ");
 }
