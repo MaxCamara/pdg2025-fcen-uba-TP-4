@@ -1672,19 +1672,33 @@ void Optimization::_adaptiveSubdivisionSelect
   // to select vertex iV
 
   if(mode==SplitEdgesMode::ALL) {
-
     // select al the vertices
+    for (int iV=0; iV<nV; iV++) vertexSelection[iV] = _vSelIndex;
 
   } else if(mode==SplitEdgesMode::SELECTED) {
 
     vector<int>& eSel = ifsv.getEdgeSelection();
     // select the vertices iV0 and iV1 of each selected edge (eSel[iE]!=-1)
+    for (int iE=0; iE<nE; iE++) {
+      if (eSel[iE] != _eSelIndex) continue;
+      int iV0 = pmesh->getVertex0(iE);
+      int iV1 = pmesh->getVertex1(iE);
+      vertexSelection[iV0] = _vSelIndex;
+      vertexSelection[iV1] = _vSelIndex;
+    }
 
   } else if(mode==SplitEdgesMode::LONG) {
 
     // using the array _edgeLengths of pre-computed edge lengths
     // select all vertices of edges longer than highEdgeLength
     float highEdgeLength = _targetEdgeLength;
+    for (int iE=0; iE<nE; iE++) {
+      if (_edgeLengths[iE] <= highEdgeLength) continue;
+      int iV0 = pmesh->getVertex0(iE);
+      int iV1 = pmesh->getVertex1(iE);
+      vertexSelection[iV0] = _vSelIndex;
+      vertexSelection[iV1] = _vSelIndex;
+    }
   }
 
   // std::cout << "nVselected = " << nVselected << std::endl;
@@ -1705,16 +1719,21 @@ void Optimization::_adaptiveSubdivisionSelect
 
   // color faces for visualization purposes
   if(colorIncidentFaces) {
-      int iF,iC0,iC1,nVsel;
+    int iF,iC0,iC1,nVsel;
 
     for(iF=iC0=iC1=0;iC1<nC;iC1++) {
       if(coordIndex[iC1]>=0) continue;
       // remember that the faces are all triangles
       // assert(iC1-iC0==3);
+      assert(iC1-iC0==3);
       //
       // count number of selected vertices of the triangle
       nVsel = 0;
       // ...
+      for(int iC=iC0; iC<iC1; iC++){
+        iV = pmesh->getSrc(iC);
+        if (vertexSelection[iV]==_vSelIndex) nVsel++;
+      }
       // painT the face accordingly
       (*colorIndex)[iF] =
         (nVsel<=1)?noSplitColorIndex:
@@ -1782,6 +1801,27 @@ void Optimization::adaptiveSubdivisionApply
   //   create new vertex at edge midpoint and save them
   //   save the new vertex index into the edgeToNewVertex array
   // }
+  int iVnew = nV;
+  for (int iE=0; iE<nE; iE++) {
+    int iV0 = pmesh->getVertex0(iE);
+    int iV1 = pmesh->getVertex1(iE);
+    if (vertexSelection[iV0] != _vSelIndex || vertexSelection[iV1] != _vSelIndex) continue;
+
+    vector<float> coord_iV0 = {coord[iV0*3], coord[iV0*3+1], coord[iV0*3+2]};
+    vector<float> coord_iV1 = {coord[iV1*3], coord[iV1*3+1], coord[iV1*3+2]};
+    vector<float> coord_iVnew = {
+      (coord_iV0[0] + coord_iV1[0]) / 2,
+      (coord_iV0[1] + coord_iV1[1]) / 2,
+      (coord_iV0[2] + coord_iV1[2]) / 2
+    };
+    coord.push_back(coord_iVnew[0]);
+    coord.push_back(coord_iVnew[1]);
+    coord.push_back(coord_iVnew[2]);
+
+    edgeToNewVertex[iE] = iVnew;
+    iVnew++;
+  }
+
 
   // now split the triangles
   // for each triangle iF connecting vertices iV0, iV1, and iV2 {
@@ -1811,6 +1851,95 @@ void Optimization::adaptiveSubdivisionApply
   //     iV0 - iV01 - iV1
   //   }
   // }
+  int iF,iC0,iC1,iV0,iV1,iV2,nVsel;
+
+  for(iF=iC0=iC1=0;iC1<nC;iC1++) {
+    if(coordIndex[iC1]>=0) continue;
+
+    nVsel = 0;
+    iV0 = pmesh->getSrc(iC0);
+    iV1 = pmesh->getSrc(iC0+1);
+    iV2 = pmesh->getSrc(iC0+2);
+    if (vertexSelection[iV0] == _vSelIndex) nVsel++;
+    if (vertexSelection[iV1] == _vSelIndex) nVsel++;
+    if (vertexSelection[iV2] == _vSelIndex) nVsel++;
+
+    if (nVsel==0 || nVsel==1) {
+      iC0=iC1+1; iF++;
+      continue;
+    }
+
+    if (nVsel==2) {
+      //Creo una variable para almacenar los vértices en las puntas de la arista que se va a dividir en dos, y otra para almacenar el vértice restante
+      vector<int> splitEdge;
+      int remainingVertex;
+
+      if (vertexSelection[iV0] == _vSelIndex) {
+        splitEdge.push_back(iV0);
+      } else {
+        remainingVertex = iV0;
+      }
+
+      if (vertexSelection[iV1] == _vSelIndex) {
+        splitEdge.push_back(iV1);
+      } else {
+        remainingVertex = iV1;
+      }
+
+      if (vertexSelection[iV2] == _vSelIndex) {
+        splitEdge.push_back(iV2);
+      } else {
+        remainingVertex = iV2;
+      }
+
+      int iE = pmesh->getEdge(min(splitEdge[0], splitEdge[1]), max(splitEdge[0], splitEdge[1]));
+      iVnew = edgeToNewVertex[iE];
+
+      //Genero dos caras nuevas: la primera la ubico al final de coordIndex, y la otra reemplaza la cara que fue dividida en dos
+      coordIndex.push_back(splitEdge[0]);
+      coordIndex.push_back(iVnew);
+      coordIndex.push_back(remainingVertex);
+      coordIndex.push_back(-1);
+
+      coordIndex[iC0] = remainingVertex;
+      coordIndex[iC0+1] = iVnew;
+      coordIndex[iC0+2] = splitEdge[1];
+    }
+
+    if (nVsel==3) {
+      int iE01 = pmesh->getEdge(min(iV0, iV1), max(iV0, iV1));
+      int iE12 = pmesh->getEdge(min(iV1, iV2), max(iV1, iV2));
+      int iE02 = pmesh->getEdge(min(iV0, iV2), max(iV0, iV2));
+
+      int iV01 = edgeToNewVertex[iE01];
+      int iV12 = edgeToNewVertex[iE12];
+      int iV02 = edgeToNewVertex[iE02];
+
+      //Ubico tres de las caras nuevas al final de coordIndex, y la cuarta reemplaza la cara que fue dividida
+
+      coordIndex.push_back(iV0);
+      coordIndex.push_back(iV01);
+      coordIndex.push_back(iV02);
+      coordIndex.push_back(-1);
+
+      coordIndex.push_back(iV1);
+      coordIndex.push_back(iV12);
+      coordIndex.push_back(iV01);
+      coordIndex.push_back(-1);
+
+      coordIndex.push_back(iV2);
+      coordIndex.push_back(iV02);
+      coordIndex.push_back(iV12);
+      coordIndex.push_back(-1);
+
+      coordIndex[iC0] = iV01;
+      coordIndex[iC0+1] = iV12;
+      coordIndex[iC0+2] = iV02;
+    }
+
+    // advance to next face
+    iC0=iC1+1; iF++;
+  }
 
   // clear all selection buffers
   ifsv.clearAllSelection();
@@ -1822,6 +1951,13 @@ void Optimization::adaptiveSubdivisionApply
   // recompute face normals
   _ifsOptimized->setNormalPerVertex(false);
   Geometry::computeNormalsPerFace(coord,coordIndex,_ifsOptimized->getNormal());
+
+  //Actualizo las longitudes en _edgeLengths ahora que cambiaron las aristas
+  pmesh = ifsv.getPolygonMesh(true);
+  Geometry::computeEdgeLengths(coord,*pmesh,_edgeLengths);
+
+  //Los colores ya no son válidos ya que cambiaron las caras
+  _ifsOptimized->clearColor();
 }
 
 // TODO 20250807 : color !
