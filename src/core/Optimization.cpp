@@ -1896,6 +1896,16 @@ void Optimization::adaptiveSubdivisionApply
       iVnew = edgeToNewVertex[iE];
 
       //Genero dos caras nuevas: la primera la ubico al final de coordIndex, y la otra reemplaza la cara que fue dividida en dos
+      //La orientación de las caras generadas debe mantener la orientación de la original respecto de las caras vecinas
+      //Para saber cuál orientación usar basta verificar si la arista partida es (iV0,iV2), ya que esta es la única arista que está orientada del segundo componente al primero
+
+      if (splitEdge[0]==iV0 && splitEdge[1]==iV2) {
+        //Si la arista partida es (iV0, iV2), doy vuelta el vector splitEdge para que splitEdge[0] siempre sea el que apunta al nuevo vértice
+        int tmp = splitEdge[0];
+        splitEdge[0] = splitEdge[1];
+        splitEdge[1] = tmp;
+      }
+
       coordIndex.push_back(splitEdge[0]);
       coordIndex.push_back(iVnew);
       coordIndex.push_back(remainingVertex);
@@ -1904,6 +1914,9 @@ void Optimization::adaptiveSubdivisionApply
       coordIndex[iC0] = remainingVertex;
       coordIndex[iC0+1] = iVnew;
       coordIndex[iC0+2] = splitEdge[1];
+
+      //Las nuevas caras tienen el mismo color que la cara original (la cara nueva que reemplaza a la original hereda su iF y por lo tanto ya cumple esto)
+      if (colorFaces) colorIndex.push_back(colorIndex[iF]);
     }
 
     if (nVsel==3) {
@@ -1916,6 +1929,7 @@ void Optimization::adaptiveSubdivisionApply
       int iV02 = edgeToNewVertex[iE02];
 
       //Ubico tres de las caras nuevas al final de coordIndex, y la cuarta reemplaza la cara que fue dividida
+      //Sabiendo que por definición la orientación es iV0 -> iV1 -> iV2 -> iV0, las caras nuevas se definen para mantener esta orientación respecto de las caras vecinas
 
       coordIndex.push_back(iV0);
       coordIndex.push_back(iV01);
@@ -1935,6 +1949,13 @@ void Optimization::adaptiveSubdivisionApply
       coordIndex[iC0] = iV01;
       coordIndex[iC0+1] = iV12;
       coordIndex[iC0+2] = iV02;
+
+      if (colorFaces) {
+        //A las tres caras nuevas añadidas al final de coordIndex les asigno el color de la cara original
+        colorIndex.push_back(colorIndex[iF]);
+        colorIndex.push_back(colorIndex[iF]);
+        colorIndex.push_back(colorIndex[iF]);
+      }
     }
 
     // advance to next face
@@ -1956,8 +1977,6 @@ void Optimization::adaptiveSubdivisionApply
   pmesh = ifsv.getPolygonMesh(true);
   Geometry::computeEdgeLengths(coord,*pmesh,_edgeLengths);
 
-  //Los colores ya no son válidos ya que cambiaron las caras
-  _ifsOptimized->clearColor();
 }
 
 // TODO 20250807 : color !
