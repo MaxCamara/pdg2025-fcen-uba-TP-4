@@ -528,6 +528,7 @@ int PolygonMesh::numberOfIsolatedVertices() {
 
 // get array of isolated vertex indices
 void PolygonMesh::getIsolatedVertices(vector<int>& isolated_vertex) {
+  isolated_vertex.clear();
 
   int nV = getNumberOfVertices();
   int nE = getNumberOfEdges();
